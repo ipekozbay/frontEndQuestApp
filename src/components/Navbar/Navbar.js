@@ -8,7 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {Link} from "react-router-dom";
 //import { makeStyles } from '@mui/styles';
 
-function Navbar() {
+export default function Navbar() {
   //let userId = 5;
     return (
 
@@ -28,7 +28,7 @@ function Navbar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link to="/" 
               style={
-                {textDecoration:'none',boxShadow:'none',color:'white',textAlign:'right'}}>
+                {textDecoration:'none',boxShadow:'none',color:'white',textAlign:'left'}}>
                 Home
             </Link>
           </Typography>
@@ -41,4 +41,3 @@ function Navbar() {
   )
 }
 
-export default Navbar;

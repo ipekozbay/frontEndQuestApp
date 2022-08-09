@@ -10,7 +10,6 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Link } from 'react-router-dom';
@@ -41,11 +40,15 @@ export default function Post(props) {
 
     return (
         <div>
-            <Card sx={{ maxWidth: 345 }} className="root" >
+            <Card sx={{ width:800, textAlign: 'center', margin:10, }} >
                 <CardHeader
                     avatar={
-                        <Link className="link" to={{ pathname: '/users/' + userId }}>
-                            <Avatar aria-label="recipe" className="avatar">
+                        <Link  
+                        to={{ pathname: '/users/' + userId }} 
+                        style={{background:'white',textDecoration:'none',boxShadow:'none'}}>
+
+                            <Avatar aria-label="recipe" 
+                            sx={{background:'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)'}}>
                                 {userName.charAt(0).toUpperCase()}
                             </Avatar>
                         </Link>
@@ -68,9 +71,7 @@ export default function Post(props) {
                         aria-label="add to favorites">
                         <FavoriteIcon style={liked ? { color: 'red' } : null} />
                     </IconButton>
-                    <IconButton aria-label="share">
-                        <ShareIcon />
-                    </IconButton>
+
                     <ExpandMore
                         expand={expanded}
                         onClick={handleExpandClick}

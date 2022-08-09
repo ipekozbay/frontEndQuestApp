@@ -1,6 +1,6 @@
 import React from "react";
 import './App.css';
-import {BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Routes } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import User from './components/User/User';
@@ -10,9 +10,12 @@ export default function App() {
   return (
     <div className="App">
       <BrowserRouter>
-      <Navbar> </Navbar>
-          <Route exact path="/" component={Home}></Route>
-          <Route exact path="/users/:userId" component={User}></Route>
+        <Navbar> </Navbar>
+        <Routes>
+          <Route exact path="/" element={<Home/>}></Route>
+          <Route exact path="/users/:userId" element={<User/>}></Route>
+
+        </Routes>
       </BrowserRouter>
     </div>
   );
