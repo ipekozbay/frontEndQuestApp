@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { useState } from "react";
+
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
@@ -13,6 +14,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Link } from 'react-router-dom';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -25,7 +27,9 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function RecipeReviewCard() {
+export default function Post(props) {
+    const { title, text, userId, userName } = props;
+    const [liked, setLiked] = useState(false);
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
@@ -47,16 +51,13 @@ export default function RecipeReviewCard() {
                             </Avatar>
                         </Link>
                     }
-
                     action={
                         <IconButton aria-label="settings">
                             <MoreVertIcon />
                         </IconButton>
                     }
                     title={title}
-
                 />
-
                 <CardContent>
                     <Typography variant="body2" color="text.secondary">
                         {text}
@@ -66,7 +67,7 @@ export default function RecipeReviewCard() {
                     <IconButton
                         onClick={handleLike}
                         aria-label="add to favorites">
-                        <FavoriteIcon style={liked ? { color: 'red' } : null}  />
+                        <FavoriteIcon style={liked ? { color: 'red' } : null} />
                     </IconButton>
                     <IconButton aria-label="share">
                         <ShareIcon />
@@ -82,7 +83,7 @@ export default function RecipeReviewCard() {
                 </CardActions>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
-                       
+
                     </CardContent>
                 </Collapse>
             </Card>
