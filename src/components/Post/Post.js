@@ -40,7 +40,7 @@ export default function Post(props) {
 
     return (
         <div>
-            <Card sx={{ width:800, textAlign: 'center', margin:10, }} >
+            <Card sx={{ width:800, textAlign: 'center', margin:8, }} >
                 <CardHeader
                     avatar={
                         <Link  

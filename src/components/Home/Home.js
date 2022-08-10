@@ -1,7 +1,7 @@
-import { Container } from "@mui/material";
 import React from "react";
 import { useState, useEffect } from 'react';
 import Post from "../Post/Post";
+import PostForm from "../Post/PostForm";
 
 export default function Home() {
   const [error, setError] = useState(null);
@@ -39,6 +39,7 @@ export default function Home() {
       alignItems:'center',
       backgroundColor: 'pink'}}
       >
+        <PostForm userId={"a"} userName={"dd"} title={"e"} text={"fr"}/>
         {postList.length > 0
           ? postList.map((post) => (
             <Post userId={post.userId} userName={post.userName} title={post.title} text={post.text}></Post>
