@@ -32,7 +32,7 @@ export default function PostForm(props) {
     const [text, setText] = useState("");
 
     const savePost=()=>{
-        fetch("/posts",
+        fetch("http://localhost:8080/posts",
         {
             method: "POST",
             headers:{

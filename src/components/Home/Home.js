@@ -8,7 +8,7 @@ export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [postList, setPostlist] = useState([]);
 
-  useEffect(() => {
+  const refreshPosts = () => {
     fetch("http://localhost:8080/posts")
       .then(res => res.json())
       .then(
@@ -23,7 +23,12 @@ export default function Home() {
           setError(error);
         }
       )
-  }, [])
+  }
+
+  useEffect(() => {
+    refreshPosts()
+
+  }, [postList])
 
   if (error) {
     return <div> error </div>;
@@ -31,15 +36,16 @@ export default function Home() {
     return <div> loading</div>;
   } else {
     return (
-      <div 
-      style={{         
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'center',
-      alignItems:'center',
-      backgroundColor: 'pink'}}
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'pink'
+        }}
       >
-        <PostForm userId={"a"} userName={"dd"} title={"e"} text={"fr"}/>
+        <PostForm userId={"a"} userName={"dd"} refreshPosts={refreshPosts} />
         {postList.length > 0
           ? postList.map((post) => (
             <Post userId={post.userId} userName={post.userName} title={post.title} text={post.text}></Post>
