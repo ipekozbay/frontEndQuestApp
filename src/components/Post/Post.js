@@ -36,7 +36,7 @@ export default function Post(props) {
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
-        refreshComments();
+        refreshComments()
     };
 
     const handleLike = () => {
@@ -62,7 +62,7 @@ export default function Post(props) {
     }
     useEffect(() => {
         if (isInitialMount.current)
-             isInitial.current = false
+             isInitialMount.current = false
         else
             refreshComments();
     }, [commentList])
