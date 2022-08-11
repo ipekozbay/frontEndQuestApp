@@ -12,6 +12,13 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import InputAdornment from '@mui/material/InputAdornment';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
+import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -25,43 +32,64 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function PostForm(props) {
-    const { userId, userName } = props;
+    const { userId, userName, refreshPosts } = props;
     const [title, setTitle] = useState("");
     const [liked, setLiked] = useState(false);
     const [expanded, setExpanded] = React.useState(false);
     const [text, setText] = useState("");
+    const [isSent, setIsSent] = useState(false);
 
-    const savePost=()=>{
+    const savePost = () => {
         fetch("http://localhost:8080/posts",
-        {
-            method: "POST",
-            headers:{
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                title:title,
-                userId:userId,
-                text:text,
-            }),
-        })
-        .then((res)=> res.json())
-        .catch((err)=>console.log("error"))
-    }
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    title: title,
+                    userId: userId,
+                    text: text,
+                }),
+            })
+            .then((res) => res.json())
+            .catch((err) => console.log("error"))
+    };
 
     const handleSubmit = () => {
         savePost();
-    }
+        setIsSent(true);
+        setTitle("");
+        setText("");
+        refreshPosts();
+    };
 
     const handleTitle = (value) => {
         setTitle(value);
-    }
+        setIsSent(false);
+    };
 
-    const handleText=(value)=>{
+    const handleText = (value) => {
         setText(value);
-    }
+        setIsSent(false);
+
+    };
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setIsSent(false);
+    };
 
     return (
+
         <div>
+            <Snackbar open={isSent} autoHideDuration={1220} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                    you post has been sent
+                </Alert>
+            </Snackbar>
             <Card sx={{ width: 800, textAlign: 'center', margin: 8, }} >
                 <CardHeader
                     avatar={
@@ -86,8 +114,10 @@ export default function PostForm(props) {
                             multiline
                             placeholder='Title'
                             inputProps={{ maxLength: 25 }}
-                            onChange={(i) => handleTitle(i.target.value)}
-                            fullWidth>
+                            fullWidth
+                            value={title}
+                            onChange={(i) => handleTitle(i.target.value)}>
+
                         </OutlinedInput>
                     }
                 />
@@ -99,6 +129,7 @@ export default function PostForm(props) {
                             placeholder='Text'
                             inputProps={{ maxLength: 250 }}
                             fullWidth
+                            value={text}
                             onChange={(i) => handleText(i.target.value)}
                             endAdornment={
                                 <InputAdornment position="end">
