@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from "react";
+import { useState, useEffect, useRef } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -26,29 +26,58 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function Post(props) {
-    const { title, text, userId, userName } = props;
-    const [liked, setLiked] = useState(false);
+    const { title, text, userId, userName, postId } = props;
     const [expanded, setExpanded] = React.useState(false);
+    const [liked, setLiked] = useState(false);
+    const [error, setError] = useState(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [commentList, setCommentList] = useState([]);
+     const isInitialMount = useRef(true);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
+        refreshComments();
     };
 
     const handleLike = () => {
         setLiked(!liked);
     };
 
+    const refreshComments = () => {
+        fetch("http://localhost:8080/comments?postId=" + postId)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    setIsLoaded(true);
+                    setCommentList(result);
+                },
+
+            ).catch(
+                (error) => {
+                    console.log("error");
+                    setIsLoaded(true);
+                    setError(error);
+                }
+            )
+    }
+    useEffect(() => {
+        if (isInitialMount.current)
+             isInitial.current = false
+        else
+            refreshComments();
+    }, [commentList])
+
     return (
         <div>
-            <Card sx={{ width:800, textAlign: 'center', margin:8, }} >
+            <Card sx={{ width: 800, textAlign: 'center', margin: 8, }} >
                 <CardHeader
                     avatar={
-                        <Link  
-                        to={{ pathname: '/users/' + userId }} 
-                        style={{background:'white',textDecoration:'none',boxShadow:'none'}}>
+                        <Link
+                            to={{ pathname: '/users/' + userId }}
+                            style={{ background: 'white', textDecoration: 'none', boxShadow: 'none' }}>
 
-                            <Avatar aria-label="recipe" 
-                            sx={{background:'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)'}}>
+                            <Avatar aria-label="recipe"
+                                sx={{ background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)' }}>
                                 {userName.charAt(0).toUpperCase()}
                             </Avatar>
                         </Link>
@@ -71,6 +100,8 @@ export default function Post(props) {
                         aria-label="add to favorites">
                         <FavoriteIcon style={liked ? { color: 'red' } : null} />
                     </IconButton>
+                    {/* <IconButton> 
+                    </IconButton> */}
 
                     <ExpandMore
                         expand={expanded}

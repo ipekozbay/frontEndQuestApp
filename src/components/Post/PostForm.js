@@ -12,7 +12,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import InputAdornment from '@mui/material/InputAdornment';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
-import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
@@ -34,8 +33,8 @@ const ExpandMore = styled((props) => {
 export default function PostForm(props) {
     const { userId, userName, refreshPosts } = props;
     const [title, setTitle] = useState("");
-    const [liked, setLiked] = useState(false);
-    const [expanded, setExpanded] = React.useState(false);
+//    const [liked, setLiked] = useState(false);
+//  const [expanded, setExpanded] = React.useState(false);
     const [text, setText] = useState("");
     const [isSent, setIsSent] = useState(false);
 
