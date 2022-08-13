@@ -48,7 +48,7 @@ export default function Home() {
         {postList.length > 0
           ? postList.map((post) => (
             <Post postId={post.id} userId={post.userId} userName={post.userName} 
-            title={post.title} text={post.text}></Post>
+            title={post.title} text={post.text} key={post.id}></Post>
           ))
           : null}
       </div>

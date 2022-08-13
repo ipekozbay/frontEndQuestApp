@@ -15,7 +15,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Link } from 'react-router-dom';
 import { Container } from '@mui/system';
 import Comment from "../Comment/Comment";
-
+import CommentForm from "../Comment/CommentForm";
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -35,7 +35,7 @@ export default function Post(props) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [commentList, setCommentList] = useState([]);
-     const isInitialMount = useRef(true);
+    const isInitialMount = useRef(true);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -64,12 +64,12 @@ export default function Post(props) {
                 }
             )
     }
-    useEffect(() => {
-        if (isInitialMount.current)
-             isInitialMount.current = false
-        else
-            refreshComments();
-    }, [commentList])
+    // useEffect(() => {
+    //     if (isInitialMount.current)
+    //          isInitialMount.current = false
+    //      else
+    //          refreshComments();
+    // },[]);
 
     return (
         <div>
@@ -118,12 +118,15 @@ export default function Post(props) {
                 </CardActions>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <Container
-                    fixed>
-                        {error? "error" :
-                        isLoaded? commentList.map(comment=>(
-                            <Comment userId = {1} userName={"USER"} text={comment.text} ></Comment>
-                        )) : "loading" }
-
+                        fixed>
+                        {error ? "error" :
+                            isLoaded ? commentList.map(comment => (
+                            <div key={comment.id}>
+                                <Comment userId={1} userName={"username1"} text={comment.text} key={comment.id}></Comment>
+                            </div>
+                            )) : "loading"}
+                        <CommentForm userId={1} userName={"username1"} text={"ww"} >
+                        </CommentForm>
                     </Container>
                 </Collapse>
             </Card>

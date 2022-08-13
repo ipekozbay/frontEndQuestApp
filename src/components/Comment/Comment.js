@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 
 export default function Comment(props) {
-    const [text, userId, userName] = props;
+    const {text, userId, userName} = props;
 
     return (
         <CardContent sx={{
