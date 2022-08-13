@@ -13,6 +13,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Link } from 'react-router-dom';
+import { Container } from '@mui/system';
+import Comment from "../Comment/Comment";
+
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -36,7 +39,8 @@ export default function Post(props) {
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
-        refreshComments()
+        refreshComments();
+        console.log(commentList);
     };
 
     const handleLike = () => {
@@ -113,9 +117,14 @@ export default function Post(props) {
                     </ExpandMore>
                 </CardActions>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <CardContent>
+                    <Container
+                    fixed>
+                        {error? "error" :
+                        isLoaded? commentList.map(comment=>(
+                            <Comment userId = {1} userName={"USER"} text={comment.text} ></Comment>
+                        )) : "loading" }
 
-                    </CardContent>
+                    </Container>
                 </Collapse>
             </Card>
         </div>
