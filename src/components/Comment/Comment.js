@@ -17,7 +17,6 @@ export default function Comment(props) {
                 disabled
                 id='outlined-adorment-amount'
                 multiline
-                placeholder='Title'
                 inputProps={{ maxLength: 25 }}
                 fullWidth
                 value={text}

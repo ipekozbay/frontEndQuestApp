@@ -29,13 +29,14 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function Post(props) {
-    const { title, text, userId, userName, postId } = props;
+    const { title, text, userId, userName, postId, likes } = props;
     const [expanded, setExpanded] = React.useState(false);
     const [liked, setLiked] = useState(false);
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [commentList, setCommentList] = useState([]);
     const isInitialMount = useRef(true);
+    const likeCount = likes.length;
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -103,29 +104,31 @@ export default function Post(props) {
                         onClick={handleLike}
                         aria-label="add to favorites">
                         <FavoriteIcon style={liked ? { color: 'red' } : null} />
+                        {likeCount}
                     </IconButton>
-                    {/* <IconButton> 
-                    </IconButton> */}
 
-                    <ExpandMore
-                        expand={expanded}
-                        onClick={handleExpandClick}
-                        aria-expanded={expanded}
-                        aria-label="show more"
-                    >
-                        <ExpandMoreIcon />
-                    </ExpandMore>
+                    <IconButton>
+                        <ExpandMore
+                            expand={expanded}
+                            onClick={handleExpandClick}
+                            aria-expanded={expanded}
+                            aria-label="show more">
+                            <ExpandMoreIcon />
+                        </ExpandMore>
+                    </IconButton>
+
+
                 </CardActions>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <Container
                         fixed>
                         {error ? "error" :
                             isLoaded ? commentList.map(comment => (
-                            <div key={comment.id}>
-                                <Comment userId={1} userName={"username1"} text={comment.text} key={comment.id}></Comment>
-                            </div>
+                                <div key={comment.id}>
+                                    <Comment userId={1} userName={"username1"} text={comment.text} key={comment.id}></Comment>
+                                </div>
                             )) : "loading"}
-                        <CommentForm userId={1} userName={"username1"} text={"ww"} >
+                        <CommentForm userId={1} userName={"username1"} postId={postId} >
                         </CommentForm>
                     </Container>
                 </Collapse>
