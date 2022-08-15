@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 
 export default function CommentForm(props) {
-    const { userId, userName, postId } = props;
+    const { userId, userName, postId, refreshComments } = props;
     const [text, setText] = useState("");
 
     const saveComment = () => {
@@ -20,10 +20,9 @@ export default function CommentForm(props) {
                     text: text,
                 }),
             })
-            .then((res) => res.json())
+            .then((res) => refreshComments())
             .catch((err) => console.log("error"))
     };
-
 
     const handleSubmit=()=>{
         saveComment();

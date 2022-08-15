@@ -106,7 +106,6 @@ export default function Post(props) {
                         <FavoriteIcon style={liked ? { color: 'red' } : null} />
                         {likeCount}
                     </IconButton>
-
                     <IconButton>
                         <ExpandMore
                             expand={expanded}
@@ -116,8 +115,6 @@ export default function Post(props) {
                             <ExpandMoreIcon />
                         </ExpandMore>
                     </IconButton>
-
-
                 </CardActions>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <Container
@@ -125,10 +122,10 @@ export default function Post(props) {
                         {error ? "error" :
                             isLoaded ? commentList.map(comment => (
                                 <div key={comment.id}>
-                                    <Comment userId={1} userName={"username1"} text={comment.text} key={comment.id}></Comment>
+                                    <Comment  userId={1} userName={"username1"} text={comment.text} key={comment.id}></Comment>
                                 </div>
                             )) : "loading"}
-                        <CommentForm userId={1} userName={"username1"} postId={postId} >
+                        <CommentForm refreshComments={refreshComments} userId={1} userName={"username1"} postId={postId}>
                         </CommentForm>
                     </Container>
                 </Collapse>
