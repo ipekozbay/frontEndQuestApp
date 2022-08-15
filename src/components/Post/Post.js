@@ -31,12 +31,12 @@ const ExpandMore = styled((props) => {
 export default function Post(props) {
     const { title, text, userId, userName, postId, likes } = props;
     const [expanded, setExpanded] = React.useState(false);
-    const [liked, setLiked] = useState(false);
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [commentList, setCommentList] = useState([]);
+    const [isLiked, setIsLiked ]= useState(false);
     const isInitialMount = useRef(true);
-    const likeCount = likes.length;
+    const [likeCount, setLikeCount] = useState(likes.length);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -45,7 +45,12 @@ export default function Post(props) {
     };
 
     const handleLike = () => {
-        setLiked(!liked);
+        setIsLiked(!isLiked);
+        
+        if(!isLiked)
+            setLikeCount(likeCount + 1);
+        else
+            setLikeCount(likeCount - 1);
     };
 
     const refreshComments = () => {
@@ -65,12 +70,20 @@ export default function Post(props) {
                 }
             )
     }
+
+    const checkLikes = () => {
+        var likeControl = likes.find((like =>like.userId === userId))
+        if(likeControl != null)
+            setIsLiked(true);
+    }
     // useEffect(() => {
     //     if (isInitialMount.current)
     //          isInitialMount.current = false
     //      else
     //          refreshComments();
     // },[]);
+
+    useEffect (( )=> {checkLikes()},[])
 
     return (
         <div>
@@ -103,9 +116,9 @@ export default function Post(props) {
                     <IconButton
                         onClick={handleLike}
                         aria-label="add to favorites">
-                        <FavoriteIcon style={liked ? { color: 'red' } : null} />
-                        {likeCount}
+                        <FavoriteIcon style={isLiked ? { color: 'red' } : null} />
                     </IconButton>
+                    {likeCount}
                     <IconButton>
                         <ExpandMore
                             expand={expanded}
