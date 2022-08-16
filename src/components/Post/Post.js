@@ -80,7 +80,7 @@ export default function Post(props) {
         fetch("http://localhost:8080/likes/", {
             method: "POST",
             headers: {
-                "Content-Type": "application.json",
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 postId: postId,
@@ -99,7 +99,7 @@ export default function Post(props) {
     }
 
     const checkLikes = () => {
-        var likeControl = likes.find((like =>  ""+like.userId === localStorage.getItem("currentUser")));
+        var likeControl = likes.find((like => like.userId === userId));
         if(likeControl != null){
           setLikeId(likeControl.id);
           setIsLiked(true);

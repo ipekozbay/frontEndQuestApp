@@ -51,7 +51,7 @@ export default function PostForm(props) {
                     text: text,
                 }),
             })
-            .then((res) => res.json())
+            .then((res) => refreshPosts())
             .catch((err) => console.log("error"))
     };
 
