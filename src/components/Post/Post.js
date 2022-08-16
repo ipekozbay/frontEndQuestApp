@@ -98,13 +98,6 @@ export default function Post(props) {
         .catch((err) => console.log(err))
     }
 
-    // const checkLikes = () => {
-    //     var likeControl = likes.find((like => like.userId === userId))
-    //     if (likeControl != null)
-    //         setLikeId(likeControl.id)
-    //         setIsLiked(true);
-    // }
-
     const checkLikes = () => {
         var likeControl = likes.find((like =>  ""+like.userId === localStorage.getItem("currentUser")));
         if(likeControl != null){
