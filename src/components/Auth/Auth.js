@@ -1,4 +1,4 @@
-import { History } from "@mui/icons-material";
+//import { History } from "@mui/icons-material";
 import { FormControl, Input, InputLabel, Button, FormHelperText } from "@mui/material";
 import React, { useState } from "react";
 
@@ -29,21 +29,17 @@ export default function Auth() {
             .then((res) => res.json())
             .then((result) => {localStorage.setItem("tokenKey", result.message);
                               localStorage.setItem("currentUser", result.userId);
-                              localStorage.setItem("userName", result.username)})
+                              localStorage.setItem("userName", result.userName)})
             .catch((err) => console.log(err))
     }
 
-    const handleRegister = (value) => {
-        sendRequest("register");
+    const handleButton = (path) => {
+        sendRequest(path);
         setUsername("");
         setPassword("");
         window.history.go("http://localhost:8080/auth/");
     }
-    const handleLogin = (value) => {
-        sendRequest("login");
-        setUsername("");
-        setPassword("");
-    }
+
 
     return (
         <FormControl>
@@ -58,7 +54,7 @@ export default function Auth() {
                     backkground: "linear-gradient(45deg, #2196F3, #21CBF3 90%)",
                     color: "white"
                 }}
-                onClick={handleRegister}> Register
+                onClick={() =>handleButton("register")}> Register
             </Button>
             <FormHelperText style={{ margin: 20 }}>
                 are you already registered?
@@ -68,7 +64,7 @@ export default function Auth() {
                     backkground: "linear-gradient(45deg, #2196F3, #21CBF3 90%)",
                     color: "white"
                 }}
-                onClick={handleLogin}> Login
+                onClick={() => handleButton("login")}> Login
             </Button>
         </FormControl>
     )
