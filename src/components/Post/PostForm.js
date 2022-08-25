@@ -60,7 +60,7 @@ export default function PostForm(props) {
         setIsSent(true);
         setTitle("");
         setText("");
-        refreshPosts();
+
     };
 
     const handleTitle = (value) => {

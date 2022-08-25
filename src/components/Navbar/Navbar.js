@@ -6,17 +6,19 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
-import { Label, LockOpen } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import {LockOpen } from '@mui/icons-material';
 
 export default function Navbar() {
- // let history = useHistory();
+  const navigate = useNavigate();
 
   const onClick = () => {
     localStorage.removeItem("tokenKey")
     localStorage.removeItem("currentUser")
     localStorage.removeItem("userName")
-  //  history.go(0)
+    navigate('/auth');
   }
+
   return (
 
     <div>
