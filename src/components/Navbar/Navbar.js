@@ -43,7 +43,7 @@ export default function Navbar() {
             </Typography>
             <Typography variant='h6'>
               {localStorage.getItem("currentUser") == null ?
-                <Link to={{pathname: "/auth"}} style={
+                <Link to={{pathname: "/auth/"}} style={
                   { textDecoration: 'none', boxShadow: 'none', color: 'white' }}>Login/register
                 </Link>: 
                 <div><IconButton style={
