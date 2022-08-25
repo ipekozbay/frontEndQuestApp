@@ -33,8 +33,8 @@ const ExpandMore = styled((props) => {
 export default function PostForm(props) {
     const { userId, userName, refreshPosts } = props;
     const [title, setTitle] = useState("");
-//    const [liked, setLiked] = useState(false);
-//  const [expanded, setExpanded] = React.useState(false);
+    //    const [liked, setLiked] = useState(false);
+    //  const [expanded, setExpanded] = React.useState(false);
     const [text, setText] = useState("");
     const [isSent, setIsSent] = useState(false);
 
@@ -44,6 +44,7 @@ export default function PostForm(props) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": localStorage.getItem("tokenKey"),
                 },
                 body: JSON.stringify({
                     title: title,
@@ -134,8 +135,10 @@ export default function PostForm(props) {
                                 <InputAdornment position="end">
                                     <Button
                                         variant='contained'
-                                        style = {{background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-                                        color: 'white'}}                
+                                        style={{
+                                            background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+                                            color: 'white'
+                                        }}
                                         onClick={handleSubmit}>
                                         post
                                     </Button>

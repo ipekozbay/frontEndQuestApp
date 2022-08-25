@@ -44,11 +44,11 @@ export default function Home() {
           backgroundColor: 'pink'
         }}
       >
-        <PostForm userId={13} userName={"dd"} refreshPosts={refreshPosts} />
+        {localStorage.getItem("currentUser") == null ? "" : <PostForm userId={localStorage.getItem("currentUser")} userName={localStorage.getItem("userName")} refreshPosts={refreshPosts} />}
         {postList.length > 0
           ? postList.map((post) => (
-            <Post likes={post.postLikes} postId={post.id} userId={post.userId} userName={post.userName} 
-            title={post.title} text={post.text} key={post.id}></Post>
+            <Post likes={post.postLikes} postId={post.id} userId={post.userId} userName={post.userName}
+              title={post.title} text={post.text} key={post.id}></Post>
           ))
           : null}
       </div>

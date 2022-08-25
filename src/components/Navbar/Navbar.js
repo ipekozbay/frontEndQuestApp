@@ -46,7 +46,8 @@ export default function Navbar() {
                 <Link to={{pathname: "/auth"}} style={
                   { textDecoration: 'none', boxShadow: 'none', color: 'white' }}>Login/register
                 </Link>: 
-                <div><IconButton onClick={onClick} ><LockOpen></LockOpen></IconButton>
+                <div><IconButton style={
+                  { textDecoration: 'none', boxShadow: 'none', color: 'white' }} onClick={onClick} ><LockOpen></LockOpen></IconButton>
                 <Link to={{pathname:"/users/" + localStorage.getItem("currentUser")}} style={
                   { textDecoration: 'none', boxShadow: 'none', color: 'white' }}>profile
                 </Link>
