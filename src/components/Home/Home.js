@@ -44,7 +44,7 @@ export default function Home() {
           backgroundColor: 'pink'
         }}
       >
-        <PostForm userId={2} userName={"dd"} refreshPosts={refreshPosts} />
+        <PostForm userId={13} userName={"dd"} refreshPosts={refreshPosts} />
         {postList.length > 0
           ? postList.map((post) => (
             <Post likes={post.postLikes} postId={post.id} userId={post.userId} userName={post.userName} 

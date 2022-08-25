@@ -167,10 +167,10 @@ export default function Post(props) {
                         {error ? "error" :
                             isLoaded ? commentList.map(comment => (
                                 <div key={comment.id}>
-                                    <Comment userId={1} userName={"username1"} text={comment.text} key={comment.id}></Comment>
+                                    <Comment userId={13} userName={"username1"} text={comment.text} key={comment.id}></Comment>
                                 </div>
                             )) : "loading"}
-                        <CommentForm refreshComments={refreshComments} userId={1} userName={"username1"} postId={postId}>
+                        <CommentForm refreshComments={refreshComments} userId={13} userName={"username1"} postId={postId}>
                         </CommentForm>
                     </Container>
                 </Collapse>
