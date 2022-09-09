@@ -22,7 +22,7 @@ export default function Avatar(props) {
     const { avatarId, userId, userName } = props;
     const [checked, setChecked] = React.useState([1]);
     const [open, setOpen] = useState(false);
-    const [selectedValue, setSelectedValue] = useState(avatarId);
+    const [selectedValue, setSelectedValue] = useState(avatarId || 0);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -49,7 +49,7 @@ export default function Avatar(props) {
             <Card sx={{ maxWidth: 250, margin: 5 }}>
                 <CardMedia
                     component="img"
-                    image="/avatars/avatar0.png"
+                    image={`/avatars/avatar${selectedValue}.png`}
                     alt="user avatar"
                 />
                 <CardContent>
@@ -64,13 +64,14 @@ export default function Avatar(props) {
                 </CardActions>
             </Card>
             <Modal
+                style={{ display: "flex", maxWidth: 345 }}
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <List dense sx={{ width: '100%', maxWidth: 300, bgcolor: 'background.paper' }}>
-                    {[ 1, 2, 3,4,5,6].map((value) => {
+                <List dense sx={{ maxWidth: 300 }}>
+                    {[1, 2, 3, 4, 5, 6].map((value) => {
                         const labelId = `checkbox-list-secondary-label-${value}`;
                         return (
                             <ListItem
@@ -78,13 +79,14 @@ export default function Avatar(props) {
                                 disablePadding
                             >
                                 <CardMedia
-                                    style={{ maxWidth: 100 }}
+                                    style={{ maxWidth: 100, display: "flex" }}
                                     component="img"
                                     alt={`Avatar n°${value}`}
                                     image={`/avatars/avatar${value}.png`}
                                     title="User Avatar"
                                 />
-                                <ListItemText id={labelId}  />
+                                <ListItemText id={labelId} />
+                                
                                 <Radio
                                     edge="end"
                                     value={value}
