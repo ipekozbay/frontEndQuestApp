@@ -2,7 +2,7 @@ import React from "react";
 import {useParams} from "react-router-dom"
 import Avatar from "../Avatar/Avatar";
 
-function User(){
+export default function User(){
     const{userId} = useParams();
     return(
         <div>
@@ -11,5 +11,3 @@ function User(){
           </div>
     )
 }
-
-export default User;
