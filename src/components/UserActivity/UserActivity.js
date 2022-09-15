@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Avatar from "../Avatar/Avatar";
 import Paper from '@mui/material/Paper';
@@ -23,7 +23,6 @@ const columns = [
     },
 ];
 
-
 export default function UserActivity(props) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -31,6 +30,7 @@ export default function UserActivity(props) {
     const [isLoaded,setIsLoaded] = useState(false);
     const [rows,setRows] = useState([]);
     const {userId}=props;
+    
     const getActivity = () => {
         fetch("http://localhost:8080/users/activity/" + userId, {
             method : "GET",
@@ -52,8 +52,11 @@ export default function UserActivity(props) {
 
             }
         )
-
     }
+    useEffect(() => {
+        getActivity()
+    },[]
+    )
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
