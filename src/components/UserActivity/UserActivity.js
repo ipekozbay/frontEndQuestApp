@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Avatar from "../Avatar/Avatar";
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,10 +9,9 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { useState } from "react";
+import { Button } from "@mui/material";
 
 const columns = [
-    { id: 'name', label: 'Name', minWidth: 170 },
-    { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
     {
         id: 'user activity',
         label: 'user activity',
@@ -26,37 +24,41 @@ const columns = [
 export default function UserActivity(props) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [error,setError] = useState(null);
-    const [isLoaded,setIsLoaded] = useState(false);
-    const [rows,setRows] = useState([]);
-    const {userId}=props;
-    
+    const [error, setError] = useState(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [rows, setRows] = useState([]);
+    const { userId } = props;
+
+    const handleNotification = (postId) => {
+        
+    };
+
     const getActivity = () => {
         fetch("http://localhost:8080/users/activity/" + userId, {
-            method : "GET",
-            headers : {
-                "Content-Type":"application/json",
-                "Authorization" :localStorage.getItem("tokenKwy")
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("tokenKwy")
             },
         })
-        .then(res => res.json())
-        .then(
-            (result) => {
-                setIsLoaded(true);
-                setRows(result);
-            },
-            (error) => {
-                console.log(error)
-                setIsLoaded(true);
-                setError(error);
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    setIsLoaded(true);
+                    console.log(result);
+                    setRows(result);
+                },
+                (error) => {
+                    console.log(error)
+                    setIsLoaded(true);
+                    setError(error);
 
-            }
-        )
+                }
+            )
     }
     useEffect(() => {
         getActivity()
-    },[]
-    )
+    }, [])
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -75,15 +77,7 @@ export default function UserActivity(props) {
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>
-                                {columns.map((column) => (
-                                    <TableCell
-                                        key={column.id}
-                                        align={column.align}
-                                        style={{ minWidth: column.minWidth }}
-                                    >
-                                        {column.label}
-                                    </TableCell>
-                                ))}
+                                user activity
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -91,18 +85,19 @@ export default function UserActivity(props) {
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row) => {
                                     return (
-                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                            {columns.map((column) => {
-                                                const value = row[column.id];
-                                                return (
-                                                    <TableCell key={column.id} align={column.align}>
-                                                        {column.format && typeof value === 'number'
-                                                            ? column.format(value)
-                                                            : value}
-                                                    </TableCell>
-                                                );
-                                            })}
-                                        </TableRow>
+                                        <Button onClick={() => handleNotification(row[1])}>
+                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                                {columns.map((column) => {
+                                                    const value = row[column.id];
+                                                    return (
+                                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code} >
+                                                            {row[3] + "" + row[0] + "your post"}
+                                                        </TableRow>
+                                                    );
+                                                })}
+                                            </TableRow>
+                                        </Button>
+
                                     );
                                 })}
                         </TableBody>
