@@ -18,15 +18,32 @@ import { Radio } from "@mui/material";
 
 
 export default function Avatar(props) {
-
     const { avatarId, userId, userName } = props;
     const [checked, setChecked] = React.useState([1]);
     const [open, setOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(avatarId || 0);
 
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const saveAvatar = () => {
+        fetch("http://localhost:8080/users/" + localStorage.getItem("currentUser"), {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("tokenKey")
+            },
+            body: JSON.stringify({
+                avatar:selectedValue,
+            }),
+        })
+            .then((res) => res.json())
+            .catch((err) => console.log(err))
+    }
 
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => {
+
+        setOpen(false);
+        saveAvatar();
+    }
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
         const newChecked = [...checked];

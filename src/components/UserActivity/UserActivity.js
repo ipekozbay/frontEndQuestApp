@@ -19,6 +19,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import Post from "../Post/Post";
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
+
 const columns = [
     {
         id: 'user activity',
@@ -30,14 +35,14 @@ const columns = [
 ];
 
 function PopUp(props) {
-    const [isOpen,postId]=props;
+    const [isOpen, postId, setIsOpen] = props;
     const [open, setOpen] = React.useState(false);
-    const [post,setPost] = useState(null);
+    const [post, setPost] = useState(null);
     const handleClickOpen = () => {
         setOpen(true);
     };
 
-    const getPost =() => {
+    const getPost = () => {
         fetch("http://localhost:8080/posts" + postId, {
             method: "GET",
             headers: {
@@ -45,7 +50,7 @@ function PopUp(props) {
                 "Authorization": localStorage.getItem("tokenKwy")
             },
         })
-            .then(res => res.json())
+            .then((res) => res.json())
             .then(
                 (result) => {
                     setPost(result);
@@ -59,50 +64,53 @@ function PopUp(props) {
 
     const handleClose = () => {
         setOpen(false);
+        setIsOpen(false);
     };
 
-    useEffect(() =>{
+    useEffect(() => {
         setOpen(isOpen);
-    },[isOpen]);
+    }, [isOpen]);
 
-    useEffect(() =>{
+    useEffect(() => {
         getPost();
-    },[postId]);
+    }, [postId]);
 
     return (
-        post != null ?
+
         <div>
-            <Button variant="outlined" onClick={handleClickOpen}>
-                Open full-screen dialog
-            </Button>
-            <Dialog
-                fullScreen
-                open={open}
-                onClose={handleClose}
-                TransitionComponent={Transition}
-            >
-                <AppBar sx={{ position: 'relative' }}>
-                    <Toolbar>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            onClick={handleClose}
-                            aria-label="close"
-                        >
-                            <CloseIcon />
-                        </IconButton>
-                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            Sound
-                        </Typography>
-                        <Button autoFocus color="inherit" onClick={handleClose}>
-                            save
-                        </Button>
-                    </Toolbar>
-                </AppBar>
-                <Post likes={post.postLikes} postId={post.id} userId={post.userId} 
-                    userName={post.userName} title={post.title} text={post.title} >
-                </Post>
-            </Dialog> : "loading"
+            {post != null ?
+                <>
+                    <Button variant="outlined" onClick={handleClickOpen}>
+                        Open full-screen dialog
+                    </Button>
+                    <Dialog
+                        fullScreen
+                        open={open}
+                        onClose={handleClose}
+                        TransitionComponent={Transition}
+                    >
+                        <AppBar sx={{ position: 'relative' }}>
+                            <Toolbar>
+                                <IconButton
+                                    edge="start"
+                                    color="inherit"
+                                    onClick={handleClose}
+                                    aria-label="close"
+                                >
+                                    <CloseIcon />
+                                </IconButton>
+                                <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                                    close
+                                </Typography>
+
+                            </Toolbar>
+                        </AppBar>
+                        <Post likes={post.postLikes} postId={post.id} userId={post.userId}
+                            userName={post.userName} title={post.title} text={post.title} >
+                        </Post>
+                    </Dialog>
+                </> 
+                : "loading"}
         </div>
     )
 }
@@ -113,7 +121,7 @@ export default function UserActivity(props) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [rows, setRows] = useState([]);
     const { userId } = props;
-    const [isOpen,setIsOpen] = useState(null);
+    const [isOpen, setIsOpen] = useState(null);
     const [selectedPost, setSelectedPost] = useState(null);
 
     const handleNotification = (postId) => {
@@ -159,7 +167,8 @@ export default function UserActivity(props) {
 
     const { useId } = useParams();
     return (
-        <div><PopUp isOpen={isOpen} postId={selectedPost}/>
+        <div>
+            {isOpen ? <PopUp isOpen={isOpen} postId={selectedPost} setIsOpen={setIsOpen} /> : ""}
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
                     <Table stickyHeader aria-label="sticky table">
