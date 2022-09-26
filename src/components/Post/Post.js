@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 import { Container } from '@mui/system';
 import Comment from "../Comment/Comment";
 import CommentForm from "../Comment/CommentForm";
+import { PostWithAuth } from '../../services/HttpService';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -78,16 +79,9 @@ export default function Post(props) {
     }
 
     const saveLike = () => {
-        fetch("http://localhost:8080/likes/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization" : localStorage.getItem("tokenKey")
-            },
-            body: JSON.stringify({
-                postId: postId,
-                userId: localStorage.getItem("currentUser"),
-            }),
+        PostWithAuth("http://localhost:8080/likes/", {
+            postId: postId,
+            userId: localStorage.getItem("currentUser"),
         })
             .then((res) => res.json())
             .catch((err) => console.log(err))
@@ -97,14 +91,14 @@ export default function Post(props) {
         fetch("http://localhost:8080/likes/" + likeId, {
             method: "DELETE",
             headers: {
-                "Authorization" : localStorage.getItem("tokenKey")
+                "Authorization": localStorage.getItem("tokenKey")
             },
         })
             .catch((err) => console.log(err))
     }
 
     const checkLikes = () => {
-        var likeControl = likes.find((like => ""+like.userId === localStorage.getItem("currentUser")));
+        var likeControl = likes.find((like => "" + like.userId === localStorage.getItem("currentUser")));
         if (likeControl != null) {
             setLikeId(likeControl.id);
             setIsLiked(true);
@@ -133,7 +127,7 @@ export default function Post(props) {
 
                             <Avatar aria-label="recipe"
                                 sx={{ background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)' }}>
-                                {userName.charAt(0).toUpperCase()}
+                                {userName && userName.charAt(0).toUpperCase()}
                             </Avatar>
                         </Link>
                     }
