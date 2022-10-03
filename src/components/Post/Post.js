@@ -39,7 +39,12 @@ export default function Post(props) {
     const isInitialMount = useRef(true);
     const [likeCount, setLikeCount] = useState(likes.length);
     const [likeId, setLikeId] = useState(null);
+    const [refresh,setRefresh] = useState(false);
     let disabled = localStorage.getItem("currentUser") == null ? true : false
+
+    const setCommentRefresh = ()=>{
+        setRefresh(true);
+    }
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -76,6 +81,7 @@ export default function Post(props) {
                     setError(error);
                 }
             )
+            setRefresh(false)
     }
 
     const saveLike = () => {
@@ -102,12 +108,12 @@ export default function Post(props) {
 
     useEffect(() => { checkLikes() }, [])
 
-    //  useEffect(() => {
-    //      if (isInitialMount.current)
-    //           isInitialMount.current = false
-    //       else
-    //           refreshComments();
-    //  },[]);
+      useEffect(() => {
+          if (isInitialMount.current)
+               isInitialMount.current = false
+           else
+               refreshComments();
+      },[refresh]);
 
     useEffect(() => { checkLikes() }, [])
 
@@ -171,11 +177,11 @@ export default function Post(props) {
                         {error ? "error" :
                             isLoaded ? commentList.map(comment => (
                                 <div key={comment.id}>
-                                    <Comment userId={13} userName={"username1"} text={comment.text} key={comment.id}></Comment>
+                                    <Comment userId={comment.userId} userName={comment.userName} text={comment.text} key={comment.id}></Comment>
                                 </div>
                             )) : "loading"}
                         {disabled ? "" :
-                            <CommentForm refreshComments={refreshComments} userId={13} userName={"username1"} postId={postId}></CommentForm>
+                            <CommentForm refreshComments={refreshComments} userId={localStorage.getItem("currentUser")} userName={localStorage.getItem("userName")} postId={postId} setCommentRefresh={setCommentRefresh}></CommentForm>
                         }
 
                     </Container>

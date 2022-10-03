@@ -125,13 +125,8 @@ export default function UserActivity(props) {
     };
 
     const getActivity = () => {
-        fetch("http://localhost:8080/users/activity/" + userId, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": localStorage.getItem("tokenKwy")
-            },
-        })
+        GetWithAuth("http://localhost:8080/users/activity/" + userId)
+        
             .then(res => res.json())
             .then(
                 (result) => {

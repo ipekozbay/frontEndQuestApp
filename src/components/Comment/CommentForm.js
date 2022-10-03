@@ -5,7 +5,7 @@ import Avatar from '@mui/material/Avatar';
 import { PostWithAuth } from "../../services/HttpService";
 
 export default function CommentForm(props) {
-    const { userId, userName, postId, refreshComments } = props;
+    const { userId, userName, postId, refreshComments, setCommentRefresh } = props;
     const [text, setText] = useState("");
 
     const saveComment = () => {
@@ -22,6 +22,7 @@ export default function CommentForm(props) {
     const handleSubmit = () => {
         saveComment();
         setText("");
+        setCommentRefresh();
     }
 
     const handleChange = (value) => {
