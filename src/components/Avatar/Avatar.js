@@ -64,13 +64,14 @@ export default function Avatar(props) {
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        username
+                        {userName}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button onClick={handleOpen}>change avatar</Button>
+                    {localStorage.getItem("currentUser") == userId ? 
+                    <Button onClick={handleOpen}>change avatar</Button> : ""}
                 </CardActions>
             </Card>
             <Modal
