@@ -18,6 +18,7 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import Post from "../Post/Post";
+import { GetWithAuth } from '../../services/HttpService';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -43,13 +44,7 @@ function PopUp(props) {
     };
 
     const getPost = () => {
-        fetch("http://localhost:8080/posts" + postId, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": localStorage.getItem("tokenKwy")
-            },
-        })
+        GetWithAuth("http://localhost:8080/posts" + postId)
             .then((res) => res.json())
             .then(
                 (result) => {
@@ -109,7 +104,7 @@ function PopUp(props) {
                             userName={post.userName} title={post.title} text={post.title} >
                         </Post>
                     </Dialog>
-                </> 
+                </>
                 : "loading"}
         </div>
     )

@@ -5,7 +5,6 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-//import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useState } from "react";
 import List from '@mui/material/List';
@@ -15,7 +14,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Checkbox from '@mui/material/Checkbox';
 import { Radio } from "@mui/material";
-
+import { PutWithAuth } from "../../services/HttpService";
 
 export default function Avatar(props) {
     const { avatarId, userId, userName } = props;
@@ -24,16 +23,10 @@ export default function Avatar(props) {
     const [selectedValue, setSelectedValue] = useState(avatarId || 0);
 
     const saveAvatar = () => {
-        fetch("http://localhost:8080/users/" + localStorage.getItem("currentUser"), {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": localStorage.getItem("tokenKey")
-            },
-            body: JSON.stringify({
-                avatar:selectedValue,
-            }),
+        PutWithAuth("http://localhost:8080/users/" + localStorage.getItem("currentUser"), {
+            avatar: selectedValue,
         })
+
             .then((res) => res.json())
             .catch((err) => console.log(err))
     }
@@ -103,7 +96,7 @@ export default function Avatar(props) {
                                     title="User Avatar"
                                 />
                                 <ListItemText id={labelId} />
-                                
+
                                 <Radio
                                     edge="end"
                                     value={value}

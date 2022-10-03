@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
-import {useParams} from "react-router-dom"
+import { useParams } from "react-router-dom"
 import Avatar from "../Avatar/Avatar";
 import UserActivity from "../UserActivity/UserActivity";
+import { GetWithAuth } from "../../services/HttpService";
 
-export default function User(){
-    const{userId} = useParams();
+export default function User() {
+    const { userId } = useParams();
     const [user, setUser] = useState();
 
     const getUser = () => {
-        fetch("http://localhost:8080/users/" + userId, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": localStorage.getItem("tokenKey")
-            },
-        })
+        GetWithAuth("http://localhost:8080/users/" + userId,)
+
             .then(res => res.json())
             .then(
                 (result) => {
@@ -23,18 +19,18 @@ export default function User(){
                 },
                 (error) => {
                     console.log(error)
-            
+
                 }
             )
     }
     useEffect(() => {
         getUser()
-    },[])
+    }, [])
 
-    return(
-        <div style={{display :"flex"}}>
+    return (
+        <div style={{ display: "flex" }}>
             {user ? <Avatar avatarId={user.avatarId} /> : ""}
-            <UserActivity userId={userId}/>
-          </div>
+            <UserActivity userId={userId} />
+        </div>
     )
 }

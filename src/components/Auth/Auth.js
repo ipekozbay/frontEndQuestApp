@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { useNavigate } from 'react-router-dom';
+import { PostWithoutAuth } from "../../services/HttpService";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -26,34 +27,27 @@ export default function Auth() {
     }
 
     const sendRequest = (path) => {
-        fetch("http://localhost:8080/auth/" + path, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                username: username,
-                password: password,
-            }),
+        PostWithoutAuth("http://localhost:8080/auth/" + path, {
+            username: username,
+            password: password,
         })
             .then((res) => res.json())
             .then((result) => {
                 localStorage.setItem("tokenKey", result.message);
                 localStorage.setItem("currentUser", result.userId);
                 localStorage.setItem("userName", result.username)
-                navigate('/');
-
-                setIsSent(true);
+             //   navigate('/');
+             //   setIsSent(true);
             })
             .catch((err) => console.log(err))
     }
 
     const handleButton = (path) => {
         sendRequest(path);
-    //  setUsername("");
-    //  setPassword("");
-    //  window.history.go("http://localhost:8080/auth/");
-    
+        //  setUsername("");
+        //  setPassword("");
+        //  window.history.go("http://localhost:8080/auth/");
+
     }
 
     const handleClose = (event, reason) => {

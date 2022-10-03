@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 import { Container } from '@mui/system';
 import Comment from "../Comment/Comment";
 import CommentForm from "../Comment/CommentForm";
-import { PostWithAuth } from '../../services/HttpService';
+import { PostWithAuth, DeleteWithAuth } from '../../services/HttpService';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -88,12 +88,7 @@ export default function Post(props) {
     }
 
     const deleteLike = () => {
-        fetch("http://localhost:8080/likes/" + likeId, {
-            method: "DELETE",
-            headers: {
-                "Authorization": localStorage.getItem("tokenKey")
-            },
-        })
+        DeleteWithAuth("http://localhost:8080/likes/" + likeId)
             .catch((err) => console.log(err))
     }
 

@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import { PostWithAuth } from '../../services/HttpService';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -39,19 +40,12 @@ export default function PostForm(props) {
     const [isSent, setIsSent] = useState(false);
 
     const savePost = () => {
-        fetch("http://localhost:8080/posts",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": localStorage.getItem("tokenKey"),
-                },
-                body: JSON.stringify({
-                    title: title,
-                    userId: userId,
-                    text: text,
-                }),
-            })
+        PostWithAuth("http://localhost:8080/posts", {
+            title: title,
+            userId: userId,
+            text: text,
+        })
+
             .then((res) => refreshPosts())
             .catch((err) => console.log("error"))
     };

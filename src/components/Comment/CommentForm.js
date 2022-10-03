@@ -2,35 +2,29 @@ import { Button, Card, CardContent, InputAdornment, inputAdornmentClasses, Outli
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
+import { PostWithAuth } from "../../services/HttpService";
 
 export default function CommentForm(props) {
     const { userId, userName, postId, refreshComments } = props;
     const [text, setText] = useState("");
 
     const saveComment = () => {
-        fetch("http://localhost:8080/comments",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization" : localStorage.getItem("tokenKey"),
-                },
-                body: JSON.stringify({
-                    postId: postId,
-                    userId: userId,
-                    text: text,
-                }),
-            })
+        PostWithAuth("http://localhost:8080/comments", {
+            postId: postId,
+            userId: userId,
+            text: text,
+        })
+
             .then((res) => refreshComments())
             .catch((err) => console.log("error"))
     };
 
-    const handleSubmit=()=>{
+    const handleSubmit = () => {
         saveComment();
         setText("");
     }
 
-    const handleChange=(value)=>{
+    const handleChange = (value) => {
         setText(value);
     }
 
@@ -48,7 +42,7 @@ export default function CommentForm(props) {
                 placeholder='Title'
                 inputProps={{ maxLength: 250 }}
                 fullWidth
-                onChange={(i)=> handleChange(i.target.value)}
+                onChange={(i) => handleChange(i.target.value)}
                 startAdornment={
                     <InputAdornment position="start" >
                         <Link
@@ -68,7 +62,8 @@ export default function CommentForm(props) {
                             variant='contained'
                             style={{
                                 background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-                                color: 'white'}}
+                                color: 'white'
+                            }}
                             onClick={handleSubmit}>
                             comment
                         </Button>
