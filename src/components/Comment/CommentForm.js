@@ -2,7 +2,7 @@ import { Button, Card, CardContent, InputAdornment, inputAdornmentClasses, Outli
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
-import { PostWithAuth } from "../../services/HttpService";
+import { PostWithAuth, RefreshToken } from "../../services/HttpService";
 
 export default function CommentForm(props) {
     const { userId, userName, postId, refreshComments, setCommentRefresh } = props;
@@ -14,10 +14,32 @@ export default function CommentForm(props) {
             userId: userId,
             text: text,
         })
+        .then((res) => {
+          if(!res.ok) {
+              RefreshToken()
+              .then((res) => { if(!res.ok) {
+                  logout();
+              } else {
+                 return res.json()
+              }})
+              .then((result) => {
+                  console.log(result)
 
-            .then((res) => refreshComments())
-            .catch((err) => console.log("error"))
-    };
+                  if(result != undefined){
+                      localStorage.setItem("tokenKey",result.accessToken);
+                      saveComment();
+                      setCommentRefresh();
+                  }})
+              .catch((err) => {
+                  console.log(err)
+              })
+          } else 
+          res.json()
+      })
+        .catch((err) => {
+          console.log(err)
+        })
+  }
 
     const handleSubmit = () => {
         saveComment();

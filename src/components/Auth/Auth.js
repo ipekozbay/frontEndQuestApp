@@ -17,7 +17,6 @@ export default function Auth() {
     const [isSent, setIsSent] = useState(false);
     const navigate = useNavigate();
 
-
     const handleUsername = (value) => {
         setUsername(value);
     }
@@ -33,11 +32,11 @@ export default function Auth() {
         })
             .then((res) => res.json())
             .then((result) => {
-                localStorage.setItem("tokenKey", result.message);
+                localStorage.setItem("tokenKey", result.accessToken);
+                localStorage.setItem("refreshKey",result.refreshToken);
                 localStorage.setItem("currentUser", result.userId);
                 localStorage.setItem("userName", result.username)
-             //   navigate('/');
-             //   setIsSent(true);
+        
             })
             .catch((err) => console.log(err))
     }
