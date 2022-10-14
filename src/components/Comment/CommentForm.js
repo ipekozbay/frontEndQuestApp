@@ -8,38 +8,48 @@ export default function CommentForm(props) {
     const { userId, userName, postId, refreshComments, setCommentRefresh } = props;
     const [text, setText] = useState("");
 
+    const logout = () => {
+        localStorage.removeItem("tokenKey")
+        localStorage.removeItem("currentUser")
+        localStorage.removeItem("refreshKey")
+        localStorage.removeItem("userName")
+        navigate('/auth');
+    }
     const saveComment = () => {
         PostWithAuth("http://localhost:8080/comments", {
             postId: postId,
             userId: userId,
             text: text,
         })
-        .then((res) => {
-          if(!res.ok) {
-              RefreshToken()
-              .then((res) => { if(!res.ok) {
-                  logout();
-              } else {
-                 return res.json()
-              }})
-              .then((result) => {
-                  console.log(result)
+            .then((res) => {
+                if (!res.ok) {
+                    RefreshToken()
+                        .then((res) => {
+                            if (!res.ok) {
+                                logout();
+                            } else {
+                                return res.json()
+                            }
+                        })
+                        .then((result) => {
+                            console.log(result)
 
-                  if(result != undefined){
-                      localStorage.setItem("tokenKey",result.accessToken);
-                      saveComment();
-                      setCommentRefresh();
-                  }})
-              .catch((err) => {
-                  console.log(err)
-              })
-          } else 
-          res.json()
-      })
-        .catch((err) => {
-          console.log(err)
-        })
-  }
+                            if (result != undefined) {
+                                localStorage.setItem("tokenKey", result.accessToken);
+                                saveComment();
+                                setCommentRefresh();
+                            }
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
+                } else
+                    res.json()
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
 
     const handleSubmit = () => {
         saveComment();
